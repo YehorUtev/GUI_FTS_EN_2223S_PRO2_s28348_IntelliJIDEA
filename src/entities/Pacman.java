@@ -2,6 +2,7 @@ package entities;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class Pacman extends JPanel implements Runnable{
     ImageIcon left;
@@ -62,9 +63,8 @@ public class Pacman extends JPanel implements Runnable{
         g.setColor(Color.YELLOW);
         g.fillArc(0, 0, getWidth(), getHeight(), 45, 270);
     }
-
     @Override
     public void run() {
-        
+
     }
 }

@@ -25,7 +25,7 @@ public class StartWindow extends JFrame implements ActionListener {
         catch (IOException | FontFormatException e){
 
         }
-        Font sizedFont = font.deriveFont(45f);
+        Font sizedFont = font.deriveFont(25f);
         this.setSize(655,679);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);;
         this.setLayout(null);
@@ -34,7 +34,7 @@ public class StartWindow extends JFrame implements ActionListener {
         background.setBounds(0,0,640,640);
         background.setIcon(gifBackground);
 
-        buttonGame.setText("START");
+        buttonGame.setText("NEW GAME");
         buttonGame.setBounds(170,70,300,140);
         buttonGame.setFont(sizedFont);
         buttonGame.setBackground(new Color(112, 41, 99));
@@ -43,7 +43,7 @@ public class StartWindow extends JFrame implements ActionListener {
         buttonGame.setBorder(BorderFactory.createBevelBorder(1));
         buttonGame.addActionListener(this);
 
-        buttonScore.setText("STATS");
+        buttonScore.setText("HIGH SCORES");
         buttonScore.setBounds(170,250,300,140);
         buttonScore.setFont(sizedFont);
         buttonScore.setBackground(new Color(112, 41, 99));
@@ -82,7 +82,6 @@ public class StartWindow extends JFrame implements ActionListener {
             ScoreWindow scores = new ScoreWindow();
             this.dispose();
         } else if (e.getSource() == buttonExit) {
-            System.out.println("Exit");
             this.dispose();
         }
     }

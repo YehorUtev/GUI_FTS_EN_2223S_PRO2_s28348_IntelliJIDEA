@@ -59,7 +59,6 @@ public class GameSettings extends JFrame implements ActionListener{
         this.setResizable(false);
     }
 
-
     public int getColumns(){
         String amountOfColumns = columnsTextFIeld.getText();
         return columns = Integer.parseInt(amountOfColumns);
