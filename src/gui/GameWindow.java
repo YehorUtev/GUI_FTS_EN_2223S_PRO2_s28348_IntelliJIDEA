@@ -11,26 +11,24 @@ import java.io.File;
 import java.io.IOException;
 
 public class GameWindow extends AbstractTableModel implements KeyListener {
-    private int newGhostRow;
-    private int newGhostColumn;
     Thread moveGhostThread;
-    private int ghostColumn;
-    private int ghostRow;
+    public static int ghostColumn;
+    public static int ghostRow;
     private int cellsCounter;
-    private JLabel ghostLabel;
+    public static JLabel ghostLabel;
     private Ghost ghost;
     private int foodCounter;
     private Font font;
     private int score;
     private JLabel scoreLabel;
-    private static JTable gameTable;
-    private final int rows;
-    private final int columns;
+    public static JTable gameTable;
+    public static int rows;
+    public static int columns;
     private Wall wall;
     private Path path;
     private boolean isAdded = false;
-    private static int pacmanRow;
-    private static int pacmanColumn;
+    public static int pacmanRow;
+    public static int pacmanColumn;
     private static JLabel pacmanLabel;
     private Pacman pacman;
     private TimeCounter timeCounter;
@@ -38,7 +36,7 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
     private boolean isPlayable = true;
     private static JFrame gameFrame;
     private JLabel label;
-    private static JPanel[][] gameBoard;
+    public static JPanel[][] gameBoard;
     private JPanel game;
     private JLabel timer;
     private final ImageIcon icon = new ImageIcon("E:\\GUI_FTS_EN_2223S_PRO2_s28348_IntelliJIDEA\\src\\images\\unnamed.png");
@@ -350,7 +348,7 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
             newPath.revalidate();
             newPath.repaint();
         }
-        //changeGhostDir();
+        /*changeGhostDir();*/
         if(checkPos()){
             gameFrame.dispose();
             AfterGameWindow afterGameWindow = new AfterGameWindow(score);
@@ -364,7 +362,7 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
         }
     }
 
-    public void changeGhostDir(){
+    /*public void changeGhostDir(){
         int randomDirection = (int)(Math.random() * 3);
         switch(randomDirection){
             case (0):
@@ -382,84 +380,8 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
         }
     }
     public void moveGhost(int dir){
-        newGhostRow = ghostRow;
-        newGhostColumn = ghostColumn;
-        JPanel curPanel = gameBoard[ghostRow][ghostColumn];
-        JPanel newPanelUp = gameBoard[newGhostRow - 1][newGhostColumn];
-        JPanel newPanelDown = gameBoard[newGhostRow + 1][newGhostColumn];
-        JPanel newPanelLeft = gameBoard[newGhostRow][newGhostColumn - 1];
-        JPanel newPanelRight = gameBoard[newGhostRow][newGhostColumn + 1];
-        switch (dir){
-            case(0):
-                newGhostRow = Math.max(0,ghostRow - 1);
-                break;
-            case(1):
-                newGhostRow = Math.min(rows, ghostRow);
-                break;
-            case(2):
-                newGhostColumn = Math.max(0,ghostColumn - 1);
-                break;
-            case(3):
-                newGhostColumn = Math.min(columns, ghostColumn);
-                break;
-        }
-        if(dir == 0){
-            curPanel.remove(ghostLabel);
-            curPanel.revalidate();
-            curPanel.repaint();
-            if(newPanelUp instanceof Wall){
-                return;
-            }
-            if(newPanelUp instanceof Path){
-                Path path1 = (Path) newPanelUp;
-                path1.add(ghostLabel);
-                path1.revalidate();
-                path1.repaint();
-            }
-        } else if(dir == 1) {
-            curPanel.remove(ghostLabel);
-            curPanel.revalidate();
-            curPanel.repaint();
-            if(newPanelDown instanceof Wall){
-                return;
-            }
-            if(newPanelDown instanceof Path){
-                Path path1 = (Path) newPanelDown;
-                path1.add(ghostLabel);
-                path1.revalidate();
-                path1.repaint();
-            }
-        } else if(dir == 2){
-            curPanel.remove(ghostLabel);
-            curPanel.revalidate();
-            curPanel.repaint();
-            if(newPanelLeft instanceof Wall){
-                return;
-            }
-            if(newPanelLeft instanceof Path){
-                Path path1 = (Path) newPanelLeft;
-                path1.add(ghostLabel);
-                path1.revalidate();
-                path1.repaint();
-            }
-        } else if(dir == 3){
-            curPanel.remove(ghostLabel);
-            curPanel.revalidate();
-            curPanel.repaint();
-            if(newPanelRight instanceof Wall){
-                return;
-            }
-            if(newPanelRight instanceof Path){
-                Path path1 = (Path) newPanelRight;
-                path1.add(ghostLabel);
-                path1.revalidate();
-                path1.repaint();
-            }
-        }
-        ghostRow = newGhostRow;
-        ghostColumn = newGhostColumn;
-        gameTable.repaint();
-    }
+
+    }*/
 
     public boolean hasFood(){
         if(foodCounter == 0){

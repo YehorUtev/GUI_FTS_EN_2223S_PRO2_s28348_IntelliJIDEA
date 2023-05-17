@@ -1,5 +1,7 @@
 package gui;
 
+import entities.Ghost;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -77,6 +79,15 @@ public class GameSettings extends JFrame implements ActionListener{
                 int column = getColumns();
                 this.dispose();
                 GameWindow game = new GameWindow(column, rows);
+                Ghost ghost = new Ghost();
+                Ghost ghost2 = new Ghost();
+                Ghost ghost3 = new Ghost();
+                Thread ghostThread = new Thread(ghost);
+                Thread ghostThread1 = new Thread(ghost2);
+                Thread ghostThread2 = new Thread(ghost3);
+                ghostThread.start();
+                ghostThread1.start();
+                ghostThread2.start();
             }
     }
 }
