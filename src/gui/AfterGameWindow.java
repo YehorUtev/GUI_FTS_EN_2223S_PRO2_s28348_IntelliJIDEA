@@ -1,5 +1,8 @@
 package gui;
 
+import entities.Result;
+import entities.ResultLoader;
+import entities.ResultSaver;
 import entities.ScoreLabel;
 
 import javax.swing.*;
@@ -8,9 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class AfterGameWindow extends JFrame implements ActionListener {
-    JLabel background;
+    private JLabel background;
     private String nickname;
     private int score;
     private JTextField spaceForNickname;
@@ -70,9 +76,10 @@ public class AfterGameWindow extends JFrame implements ActionListener {
         if(e.getSource() == submitButton){
             this.nickname = spaceForNickname.getText();
             this.dispose();
-            ScoreWindow scoreWindow = new ScoreWindow();
-            ScoreLabel scoreLabel = new ScoreLabel(nickname, score);
-            scoreWindow.addScores(scoreLabel);
+            List<Result> resultList = ResultLoader.load("result.dat");
+            Collections.addAll(resultList, new Result(nickname, score));
+            ResultSaver.save(resultList, "results.dat");
+            StartWindow startWindow = new StartWindow();
         }
     }
 }

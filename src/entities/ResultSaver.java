@@ -1,22 +1,36 @@
 package entities;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResultSaver {
-    public static void save(List<Result> listResult, String url){
+    public static void save(List<Result> listResult, String filePath) {
         try {
-            FileOutputStream fs = new FileOutputStream(url);
-            ObjectOutputStream os = new ObjectOutputStream(fs);
-            for(Result result : listResult) {
-                os.writeObject(result);
+            Path path = Paths.get(filePath);
+            List<Result> existingResults = new ArrayList<>();
+
+            if (Files.exists(path)) {
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+                    while (true) {
+                        Result result = (Result) ois.readObject();
+                        existingResults.add(result);
+                    }
+                } catch (EOFException e) {
+                }
             }
-            fs.close();
-            os.close();
-        } catch (IOException e) {
+
+            existingResults.addAll(listResult);
+
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
+                for (Result result : existingResults) {
+                    oos.writeObject(result);
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

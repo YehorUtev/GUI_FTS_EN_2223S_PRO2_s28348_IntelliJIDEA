@@ -1,5 +1,8 @@
 package gui;
 
+import entities.Result;
+import entities.ResultLoader;
+import entities.ResultSaver;
 import entities.ScoreLabel;
 
 import javax.swing.*;
@@ -9,9 +12,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ScoreWindow extends JFrame implements ActionListener {
-    private ArrayList<ScoreLabel> scoreLabels = new ArrayList<>();
+    private List<Result> scoreLabels;
     private JPanel contentPanel;
     private JScrollPane scrollPane;
     private JButton buttonExit;
@@ -42,7 +46,8 @@ public class ScoreWindow extends JFrame implements ActionListener {
         this.setLayout(null);
         this.setIconImage(icon.getImage());
 
-        addScores(new ScoreLabel("Kowalski", 1000));
+        List<Result> results = ResultLoader.load("results.dat");
+        addScores(results);
 
         scrollPane = new JScrollPane(contentPanel);
         scrollPane.setOpaque(false);
@@ -71,19 +76,22 @@ public class ScoreWindow extends JFrame implements ActionListener {
         this.setVisible(true);
     }
 
-    public void addScores(ScoreLabel scoreLabel){
-        scoreLabels.add(scoreLabel);
-        for(ScoreLabel scoreLabelItem : scoreLabels){
-            scoreLabelItem.setPreferredSize(new Dimension(500,100));
-            scoreLabelItem.setMaximumSize(new Dimension(600, 100));
-            scoreLabelItem.setBackground(new Color(112,41,99));
-            scoreLabelItem.setOpaque(true);
-            scoreLabelItem.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createEmptyBorder(10,10,10,10),
+    public void addScores(List<Result> results) {
+        for (Result result : results) {
+            ScoreLabel scoreLabel = new ScoreLabel(result.getNickname(), result.getScore());
+            scoreLabel.setPreferredSize(new Dimension(500, 100));
+            scoreLabel.setMaximumSize(new Dimension(600, 100));
+            scoreLabel.setBackground(new Color(112, 41, 99));
+            scoreLabel.setOpaque(true);
+            scoreLabel.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createEmptyBorder(10, 10, 10, 10),
                     BorderFactory.createBevelBorder(1)));
-            contentPanel.add(scoreLabelItem);
+            contentPanel.add(scoreLabel);
         }
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
