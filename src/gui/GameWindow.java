@@ -1,6 +1,7 @@
 package gui;
 
 import boosts.DecreaseSpeedForGhost;
+import boosts.ExtraHP;
 import boosts.ExtraPoints;
 import boosts.IncreasePercentageOfSpawningBoost;
 import entities.*;

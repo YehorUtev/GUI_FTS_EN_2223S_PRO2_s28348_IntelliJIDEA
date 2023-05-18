@@ -1,4 +1,4 @@
-package entities;
+package boosts;
 
 import javax.swing.*;
 
