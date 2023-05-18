@@ -13,14 +13,17 @@ import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 
-public class GameWindow extends AbstractTableModel implements KeyListener {
+public class GameWindow extends AbstractTableModel implements KeyListener{
+    public static TimeCounter timeCounter;
+    private JLabel timeLabel;
+    public static ExtraHP extraHP;
+    public static JLabel extraHPLabel;
     public static IncreasePercentageOfSpawningBoost increaseSpawnRate;
     public static JLabel increaseSpawnRateLabel;
-    private final JLabel timeCounterLabel;
-    private final JLabel hp3Label;
-    private final JLabel hp2Label;
+    public static JLabel hp3Label;
+    public static JLabel hp2Label;
     private final JLabel hpLabel;
-    private int amountOfLIfes;
+    public static int amountOfLIfes;
     private final Life hp = new Life();
     public static JLabel boostForSpeedLabel;
     public static DecreaseSpeedForGhost decreaseSpeedForGhostBoost;
@@ -32,7 +35,7 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
     private final Ghost ghost;
     private int foodCounter;
     private Font font;
-    private int score;
+    public static int score;
     private final JLabel scoreLabel;
     public static JTable gameTable;
     public static int rows;
@@ -44,8 +47,7 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
     public static int pacmanColumn;
     private static JLabel pacmanLabel;
     private final Pacman pacman;
-    private final TimeCounter timeCounter;
-    private final ImageIcon food = new ImageIcon("E:\\GUI_FTS_EN_2223S_PRO2_s28348_IntelliJIDEA\\src\\images\\kisspng-united-states-plan-win-the-white-house-business-ma-white-dot-5b246c763a0901.4391441115291137182377.jpg");
+    private final ImageIcon food = new ImageIcon("E:\\GUI_FTS_EN_2223S_PRO2_s28348_IntelliJIDEA\\src\\images\\food.jpg");
     private static JFrame gameFrame;
     private final JLabel label;
     public static JPanel[][] gameBoard;
@@ -62,7 +64,6 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
         gameTable.setVisible(true);
         GameWindow.rows = rows;
         GameWindow.columns = columns;
-        timeCounter = new TimeCounter();
         gameFrame = new JFrame("PACMAN");
         gameBoard = new JPanel[rows * gameTable.getRowHeight()][columns * gameTable.getRowHeight()];
         label = new JLabel();
@@ -71,6 +72,7 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
         ghostLabel = new JLabel();
         ghost = new Ghost();
         amountOfLIfes = 3;
+        timeCounter = new TimeCounter();
 
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("E:\\GUI_FTS_EN_2223S_PRO2_s28348_IntelliJIDEA\\src\\fonts\\PressStart2P.ttf"));
@@ -118,14 +120,11 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
         up.setPreferredSize(new Dimension(columns * gameTable.getRowHeight(), 50));
 
         JPanel down = new JPanel();
+        timeLabel = new JLabel(timeCounter.toString());
+        timeLabel.setFont(sizedFont);
+        down.add(timeLabel);
         down.setBackground(new Color(112, 41, 99));
         down.setPreferredSize(new Dimension(columns * gameTable.getRowHeight(), 50));
-        timeCounterLabel = new JLabel();
-        timeCounterLabel.setLayout(null);
-        timeCounterLabel.setVisible(true);
-        timeCounterLabel.setBounds(10, 10, 100, 30);
-        timeCounterLabel.setFont(sizedFont);
-        down.add(timeCounterLabel);
 
         JPanel left = new JPanel();
         left.setBackground(new Color(112, 41, 99));
@@ -148,7 +147,7 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
                 wall = new Wall();
                 path = new Path();
                 double randomNumber = Math.random() * 10;
-                if (randomNumber < 1.3) {
+                if (randomNumber < 1) {
                     gameBoard[i][j] = wall;
                     game.add(wall);
                 } else {
@@ -209,6 +208,14 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
         increaseSpawnRateLabel.setIcon(decreaseSpeedForGhostBoost.getBoostIcon());
         increaseSpawnRateLabel.setOpaque(false);
 
+        extraHP = new ExtraHP(ghostRow,ghostColumn);
+        extraHPLabel = new JLabel();
+        extraHPLabel.setVisible(true);
+        extraHPLabel.setLayout(null);
+        extraHPLabel.setBounds(10, 10, 30, 30);
+        extraHPLabel.setIcon(decreaseSpeedForGhostBoost.getBoostIcon());
+        extraHP.setOpaque(false);
+
         gameFrame.setFocusable(true);
         gameFrame.addKeyListener(this);
         gameFrame.setResizable(true);
@@ -226,7 +233,6 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
         gameTable.setVisible(true);
         GameWindow.rows = rows;
         GameWindow.columns = columns;
-        timeCounter = new TimeCounter();
         gameFrame = new JFrame("PACMAN");
         gameBoard = new JPanel[rows * gameTable.getRowHeight()][columns * gameTable.getRowHeight()];
         label = new JLabel();
@@ -284,12 +290,6 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
         JPanel down = new JPanel();
         down.setBackground(new Color(112, 41, 99));
         down.setPreferredSize(new Dimension(columns * gameTable.getRowHeight(), 50));
-        timeCounterLabel = new JLabel();
-        timeCounterLabel.setLayout(null);
-        timeCounterLabel.setVisible(true);
-        timeCounterLabel.setBounds(10, 10, 100, 30);
-        timeCounterLabel.setFont(sizedFont);
-        down.add(timeCounterLabel);
 
         JPanel left = new JPanel();
         left.setBackground(new Color(112, 41, 99));
@@ -312,7 +312,7 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
                 wall = new Wall();
                 path = new Path();
                 double randomNumber = Math.random() * 10;
-                if (randomNumber < 1.3) {
+                if (randomNumber < 1) {
                     gameBoard[i][j] = wall;
                     game.add(wall);
                 } else {
@@ -451,7 +451,7 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
             if (newPath.hasFood()) {
                 newPath.removeFood();
                 foodCounter--;
-                score += 15;
+                score += 10;
                 setScore(score);
             }
             newPath.add(pacmanLabel);
@@ -469,7 +469,6 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
                     break;
                 case (0):
                     GameSettings.ghostThread.stop();
-                    GameSettings.timeThread.stop();
                     hpLabel.setVisible(false);
                     gameFrame.dispose();
                     AfterGameWindow afterGameWindow = new AfterGameWindow(score);
@@ -478,17 +477,28 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
         }
 
         if (check1Boost()) {
-            int speed = ghost.getSpeed();
             currentPanel.remove(boostForSpeedLabel) ;
-            ghost.setSpeed(speed + 200);
+            currentPanel.revalidate();
+            currentPanel.repaint();
+            gameTable.repaint();
         }
         if(check2Boost()){
-            score += 500;
             currentPanel.remove(extraPointsBoost);
+            currentPanel.revalidate();
+            currentPanel.repaint();
+            gameTable.repaint();
         }
         if(check3Boost()){
-            double chance = ghost.getChanceToSpawn();
-            ghost.setChanceToSpawn(chance + 0.1);
+            currentPanel.remove(increaseSpawnRateLabel);
+            currentPanel.revalidate();
+            currentPanel.repaint();
+            gameTable.repaint();
+        }
+        if(check4Boost() && amountOfLIfes < 3){
+            currentPanel.remove(extraPointsBoost);
+            currentPanel.revalidate();
+            currentPanel.repaint();
+            gameTable.repaint();
         }
 
         pacmanRow = newPacmanRow;
@@ -543,7 +553,8 @@ public class GameWindow extends AbstractTableModel implements KeyListener {
         return pacmanRow == increaseSpawnRate.getBoostRow() && pacmanColumn == increaseSpawnRate.getBoostColumn();
     }
 
-    private void updateCounter() {
-        timeCounterLabel.setText(timeCounter.toString());
+    public boolean check4Boost(){
+        return pacmanRow == extraHP.getBoostRow() && pacmanColumn == extraHP.getBoostColumn();
     }
+
 }

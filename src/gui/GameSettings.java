@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class GameSettings extends JFrame implements ActionListener, KeyListener {
-    public static Thread timeThread;
     public static Thread ghostThread;
     JButton buttonAccept;
     JTextField rowsTextField;
@@ -119,9 +118,6 @@ public class GameSettings extends JFrame implements ActionListener, KeyListener 
             if (e.getSource() == buttonAccept) {
                 this.dispose();
                 GameWindow game = new GameWindow(getColumns(), getRows());
-                TimeCounter timeCounter = new TimeCounter();
-                timeThread = new Thread(timeCounter);
-                timeThread.start();
                 Ghost ghost = new Ghost();
                 ghostThread = new Thread(ghost);
                 ghostThread.start();
