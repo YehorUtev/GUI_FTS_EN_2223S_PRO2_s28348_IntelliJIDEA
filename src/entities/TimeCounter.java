@@ -41,6 +41,6 @@ public class TimeCounter implements Runnable {
 
     @Override
     public String toString() {
-        return String.format("%d:%d:%d",hours,minutes,seconds);
+        return String.format("%02d:%02d:%02d",hours,minutes,seconds);
     }
 }

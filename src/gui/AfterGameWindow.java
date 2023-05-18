@@ -9,13 +9,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AfterGameWindow extends JFrame implements ActionListener {
+public class AfterGameWindow extends JFrame implements ActionListener, KeyListener {
     private JLabel background;
     private String nickname;
     private int score;
@@ -30,6 +32,8 @@ public class AfterGameWindow extends JFrame implements ActionListener {
         this.score = score;
         this.setLayout(null);
         this.setResizable(false);
+        this.setIconImage(icon.getImage());
+        this.setTitle("RESULTS");
 
         this.setSize(new Dimension(300,200));
 
@@ -64,6 +68,8 @@ public class AfterGameWindow extends JFrame implements ActionListener {
         submitButton.setVerticalAlignment(SwingConstants.CENTER);
         submitButton.addActionListener(this);
 
+        this.addKeyListener(this);
+        this.setFocusable(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(background);
         this.setVisible(true);
@@ -81,5 +87,23 @@ public class AfterGameWindow extends JFrame implements ActionListener {
             ResultSaver.save(resultList, "results.dat");
             StartWindow startWindow = new StartWindow();
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_Q && e.isControlDown() && e.isShiftDown()) {
+            StartWindow startWindow = new StartWindow();
+            this.dispose();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }

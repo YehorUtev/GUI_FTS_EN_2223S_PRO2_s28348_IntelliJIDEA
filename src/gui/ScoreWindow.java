@@ -9,12 +9,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScoreWindow extends JFrame implements ActionListener {
+public class ScoreWindow extends JFrame implements ActionListener, KeyListener {
     private List<Result> scoreLabels;
     private JPanel contentPanel;
     private JScrollPane scrollPane;
@@ -31,6 +33,7 @@ public class ScoreWindow extends JFrame implements ActionListener {
         contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel,BoxLayout.Y_AXIS));
         contentPanel.setOpaque(false);
+        this.setTitle("SCORES");
 
         background = new JLabel();
         try {
@@ -71,6 +74,8 @@ public class ScoreWindow extends JFrame implements ActionListener {
         background.setLayout(null);
         background.add(scrollPane);
         background.add(buttonExit);
+        this.addKeyListener(this);
+        this.setFocusable(true);
         this.add(background);
         this.setResizable(false);
         this.setVisible(true);
@@ -99,5 +104,23 @@ public class ScoreWindow extends JFrame implements ActionListener {
             StartWindow startWindow = new StartWindow();
             this.dispose();
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_Q && e.isControlDown() && e.isShiftDown()) {
+            StartWindow startWindow = new StartWindow();
+            this.dispose();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }

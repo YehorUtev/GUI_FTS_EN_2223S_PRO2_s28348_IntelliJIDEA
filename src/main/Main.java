@@ -18,5 +18,10 @@ public class Main {
         Result result3 = new Result("4", 12000);
         Collections.addAll(results, result1, result3, result2, result);
         ResultSaver.save(results, "results.dat");*/
+        for(int i = 0; i < 10; i++){
+            for(int j = 0; j < 10; j++){
+
+            }
+        }
     }
 }

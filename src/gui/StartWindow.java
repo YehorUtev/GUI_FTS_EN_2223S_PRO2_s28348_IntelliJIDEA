@@ -20,6 +20,7 @@ public class StartWindow extends JFrame implements ActionListener {
         buttonScore = new JButton();
         buttonExit = new JButton();
         background = new JLabel();
+        this.setTitle("PACMAN");
         try{
             font = Font.createFont(Font.TRUETYPE_FONT, new File("E:\\GUI_FTS_EN_2223S_PRO2_s28348_IntelliJIDEA\\src\\fonts\\PressStart2P.ttf"));}
         catch (IOException | FontFormatException e){
